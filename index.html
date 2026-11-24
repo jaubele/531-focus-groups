@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Focus Group Findings</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ======================================================================
+       FOCUS GROUP PYRAMID : STYLES
+       1 Colors and fonts   2 Page and background   3 Intro cards
+       4 The pyramid        5 Sub-triangles that float out
+       ====================================================================== */
+
+
+    /* ---------- 1. COLORS AND FONTS ---------- */
+    :root {
+      --bg-top:    #ffffff;              /* page background: top of the gradient */
+      --bg-bottom: #e9f0f7;              /* page background: bottom of the gradient */
+      --blue:      #155191;
+      --sand:      #e8b678;
+      --orange:    #e08561;
+      --sky:       #8fb9e6;
+      --frame:     #cdd7e2;              /* grey triangle around the pyramid */
+      --ink:       #0b2f57;
+      --text:      #0b2f57;              /* main text */
+      --muted:     #3f566f;              /* softer text */
+      --card:      #ffffff;
+      --card-line: #d3dce6;
+
+      --font-display: 'Poppins', system-ui, sans-serif;
+      --font-label:   'Barlow Condensed', 'Arial Narrow', 'TeX Gyre Heros Cn', sans-serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+    }
+
+
+    /* ---------- 2. PAGE AND BACKGROUND ---------- */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      position: relative;
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font: 16px/1.55 var(--font-body);
+      background: linear-gradient(170deg, var(--bg-top), var(--bg-bottom));
+      overflow-x: hidden;
+    }
+
+    /* Big faint triangle outlines drifting in the background */
+    .deco {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .deco polygon {
+      fill: none;
+      stroke: var(--blue);
+      stroke-width: 2;
+      stroke-linejoin: round;
+      opacity: .09;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    /* Wide screens (laptops): text on the left, pyramid on the right, so it all fits on one screen */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    @media (min-width: 1000px) {
+      .layout {
+        grid-template-columns: clamp(320px, 30vw, 400px) minmax(0, 1fr);
+        align-items: center;
+        min-height: calc(100vh - 68px);
+      }
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      font: 600 13px var(--font-display);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font: 800 clamp(30px, 3.6vw, 46px)/1.05 var(--font-display);
+      letter-spacing: -.01em;
+    }
+
+    h1 {
+      color: var(--blue);
+    }
+
+    h1 span {
+      color: var(--orange);
+    }
+
+
+    /* ---------- 3. INTRO CARDS (purpose + what to do) ---------- */
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    @media (min-width: 700px) and (max-width: 999px) {
+      .intro {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--card-line);
+      border-radius: 18px;
+      padding: 14px 18px 16px 22px;
+      font-size: 14px;
+      line-height: 1.45;
+      box-shadow: 0 6px 20px rgba(11, 47, 87, .08);
+      overflow: hidden;
+    }
+
+    /* Colored strip down the left edge of each card */
+    .card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--orange);
+    }
+
+    .card.activity::before {
+      background: var(--sand);
+    }
+
+    .card h2 {
+      color: var(--blue);
+      margin: 0 0 8px;
+      font: 700 17px/1.25 var(--font-display);
+    }
+
+    .card p {
+      margin: 0 0 8px;
+      color: var(--text);
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .card ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .card li {
+      position: relative;
+      margin-bottom: 8px;
+      padding-left: 34px;
+      color: var(--text);
+      counter-increment: step;
+    }
+
+    .card li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--sand);
+      color: var(--ink);
+      font: 700 12px/24px var(--font-display);
+      text-align: center;
+    }
+
+    .card li b {
+      color: var(--text);
+    }
+
+    /* Text still waiting to be written shows in a soft highlight */
+    .todo {
+      background: rgba(232, 182, 120, .30);
+      border-radius: 4px;
+      padding: 0 4px;
+      color: var(--text);
+    }
+
+
+    /* ---------- 4. THE PYRAMID ---------- */
+    .stage {
+      position: relative;
+    }
+
+    #pyramid {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: calc(100vh - 80px);        /* keeps the whole pyramid on a laptop screen */
+      overflow: visible;
+      filter: drop-shadow(0 16px 28px rgba(11, 47, 87, .18));
+    }
+
+    #pyramid .frame {
+      fill: var(--frame);
+      stroke: var(--frame);
+      stroke-width: 16;
+      stroke-linejoin: round;
+    }
+
+    #pyramid .num {
+      font: 800 170px/1 var(--font-display);
+      text-anchor: end;
+      dominant-baseline: central;
+    }
+
+    /* The numbers 1, 3, 5 are the first three text items, so the level names are 4, 5 and 6 */
+    #pyramid .num:nth-of-type(1) { fill: var(--orange); }   /* Bold Goal */
+    #pyramid .num:nth-of-type(2) { fill: var(--sand); }     /* Support Objectives */
+    #pyramid .num:nth-of-type(3) { fill: var(--blue); }      /* Key Initiatives */
+
+    #pyramid .num {
+      fill: var(--blue);
+    }
+
+    #pyramid .side {
+      font: 700 34px/1.1 var(--font-display);
+      fill: #fff;
+      dominant-baseline: middle;
+      transition: opacity .25s ease;
+    }
+
+    /* The numbers 1, 3, 5 are the first three text items, so the level names are 4, 5 and 6 */
+    #pyramid .side:nth-of-type(4) { fill: var(--orange); }   /* Bold Goal */
+    #pyramid .side:nth-of-type(5) { fill: var(--sand); }     /* Support Objectives */
+    #pyramid .side:nth-of-type(6) { fill: var(--blue); }      /* Key Initiatives */
+
+    /* While a menu is open the level names step aside to make room */
+    #pyramid.dim .side {
+      opacity: .12;
+    }
+
+    /* Each triangle: a filled shape with rounded corners (thick stroke in the same color) */
+    .tri {
+      cursor: pointer;
+      outline: none;
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: transform .18s ease, filter .18s ease;
+      animation: pop .6s cubic-bezier(.2, .9, .3, 1.2) backwards;
+      animation-delay: calc(var(--i) * 70ms + 150ms);
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(.6);
+      }
+    }
+
+    .tri polygon {
+      stroke-width: 10;
+      stroke-linejoin: round;
+    }
+
+    .tri.orange polygon { fill: var(--orange); stroke: var(--orange); }
+    .tri.sand   polygon { fill: var(--sand);   stroke: var(--sand); }
+    .tri.blue   polygon { fill: var(--blue);   stroke: var(--blue); }
+
+    .tri text {
+      font: 600 19.5px/1 var(--font-label);
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    .tri.orange text,
+    .tri.blue text   { fill: #fff; }
+    .tri.sand text   { fill: var(--blue); }
+
+    .tri:hover,
+    .tri:focus-visible,
+    .tri.open {
+      transform: scale(1.06);
+      filter: drop-shadow(0 6px 12px rgba(11, 47, 87, .45));
+    }
+
+    .tri:focus-visible polygon,
+    .tri.open polygon {
+      stroke: var(--ink);
+      stroke-width: 6;
+    }
+
+    /* Small "+" badge on triangles that open a menu */
+    .tri .plus circle { fill: #fff; }
+
+    .tri .plus path {
+      stroke-width: 2.5;
+      stroke-linecap: round;
+    }
+
+    .tri.orange .plus path { stroke: var(--orange); }
+    .tri.sand .plus path   { stroke: var(--blue); }
+
+    /* A triangle whose deck is not published yet (add class "soon" in the HTML) */
+    .tri.soon {
+      opacity: .35;
+      pointer-events: none;
+    }
+
+
+    /* ---------- 5. SUB-TRIANGLES THAT FLOAT OUT ---------- */
+    #float {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: min(300px, 36%);
+      z-index: 5;
+    }
+
+    #float[hidden] {
+      display: none;
+    }
+
+    #float .title {
+      margin: 0 0 6px;
+      text-align: center;
+      font: 700 15px var(--font-display);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--blue);
+    }
+
+    #float .close {
+      display: block;
+      margin: 0 auto 8px;
+      border: 1px solid var(--blue);
+      background: #fff;
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 3px 14px;
+      font: 500 12px var(--font-body);
+      cursor: pointer;
+    }
+
+    #float .close:hover {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    /* The three sub-triangles are arranged like a small pyramid: one on top, two below */
+    .kids {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      row-gap: 0;
+    }
+
+    .kid {
+      display: block;
+      outline: none;
+      grid-column: span 2;
+      transition: transform .18s ease, filter .18s ease;
+      filter: drop-shadow(0 8px 14px rgba(11, 47, 87, .25));
+    }
+
+    .kid:nth-child(1) { grid-column: 2 / span 2; }
+    .kid:nth-child(n+2) { margin-top: -8px; }
+
+    .kid svg,
+    .kid img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .kid polygon {
+      stroke-width: 14;
+      stroke-linejoin: round;
+    }
+
+    .kid.orange polygon { fill: var(--orange); stroke: var(--orange); }
+    .kid.sand polygon   { fill: var(--sand);   stroke: var(--sand); }
+
+    .kid text {
+      font: 600 24px/1 var(--font-label);
+      text-anchor: middle;
+    }
+
+    .kid.orange text { fill: #fff; }
+    .kid.sand text   { fill: var(--blue); }
+
+    .kid:hover,
+    .kid:focus-visible {
+      transform: translateY(-5px) scale(1.05);
+      filter: drop-shadow(0 12px 18px rgba(11, 47, 87, .35));
+    }
+
+    .kid:focus-visible polygon {
+      stroke: var(--ink);
+    }
+
+    /* Narrow screens: the sub-triangles sit under the pyramid instead of beside it */
+    @media (max-width: 699px) {
+      #float {
+        position: relative;
+        width: min(360px, 100%);
+        margin: 18px auto 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tri, .kid { transition: none; animation: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Faint triangle outlines in the background -->
+  <svg class="deco" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <polygon points="140,40 330,370 -50,370"/>
+    <polygon points="860,260 1100,680 620,680"/>
+    <polygon points="90,520 230,760 -50,760"/>
+    <polygon points="760,30 850,190 670,190"/>
+  </svg>
+
+  <main>
+
+    <div class="layout">
+
+    <div class="side">
+    <p class="eyebrow">Focus group findings</p>
+    <h1>What we <span>heard</span></h1>
+
+
+    <!-- ===================== INTRO: WHY WE HELD THEM, AND WHAT TO DO ===================== -->
+    <!-- To edit the text, change what is between the tags. Delete class="todo" once a line is final. -->
+    <div class="intro">
+
+      <section class="card">
+        <h2>Why we held these focus groups</h2>
+        <p><span>At the Septemeber Town Hall General staff meeting, staff at OCDE were given the opportunity to sign-up for focus groups so they could give feedback on the 5-3-1 strategic plan. During sign-up, staff were able to select multiple areas they wanted to provide feedback on and they were invited to participate in at least one focus group from their preferred list.</span></p>
+        <p><span>The topic areas discussed at each focus group were based on the feedback you provided at Symposium #1 when you filled out a Google Form indicating what parts of your implementation plan you were open to feedback on.</span></p>
+      </section>
+
+      <section class="card activity">
+        <h2>What to do with the findings</h2>
+        <ol>
+          <li><b>Explore.</b> Select any triangle to open the findings from that focus group. Triangles marked + open a small group of focus groups.</li>
+          <li><b>Notice.</b> <span class="todo">[Template text] Describe what to look for as you read, such as surprises, patterns across groups, or ideas you could use.</span></li>
+          <li><b>Discuss.</b> <span class="todo">[Template text] Describe the activity: who to talk with, what to discuss, and what to bring back.</span></li>
+        </ol>
+      </section>
+
+    </div>
+    </div>
+
+
+    <!-- ===================== THE PYRAMID (drawn as shapes, so it stays sharp at any size) ===================== -->
+    <div class="stage" id="stage">
+
+      <svg id="pyramid" viewBox="-100 -22 920 564" role="group" aria-label="Strategic plan pyramid. Select a triangle to open its focus group deck.">
+
+        <!-- Grey frame behind the triangles -->
+        <polygon class="frame" points="300.0,-14.0 612.1,526.6 -12.1,526.6"/>
+
+        <!-- Big numbers on the left -->
+        <text class="num orange" x="224" y="91">1</text>
+        <text class="num sand" x="124" y="264">3</text>
+        <text class="num blue" x="24" y="437">5</text>
+
+        <!-- Level names on the right -->
+        <text class="side" x="386" y="81"><tspan x="386" dy="0">Bold</tspan><tspan x="386" dy="1.12em">Goal</tspan></text>
+        <text class="side" x="486" y="254"><tspan x="486" dy="0">Support</tspan><tspan x="486" dy="1.12em">Objectives</tspan></text>
+        <text class="side" x="586" y="427"><tspan x="586" dy="0">Key</tspan><tspan x="586" dy="1.12em">Initiatives</tspan></text>
+
+        <!-- ============ THE NINE TRIANGLES ============ -->
+
+        <!-- 2030 Vision for Students -->
+        <g style="--i:0" class="tri orange menu" data-menu="vision" tabindex="0" role="button" aria-expanded="false" aria-controls="submenu" aria-label="2030 Vision for Students, opens a menu">
+          <polygon points="300.0,17.0 385.3,164.7 214.7,164.7"/>
+          <text><tspan x="300.0" y="77.7">2030</tspan><tspan x="300.0" y="99.5">Vision for</tspan><tspan x="300.0" y="121.4">Students</tspan></text>
+          <g class="plus" aria-hidden="true">
+            <circle cx="300.0" cy="147.7" r="11"/>
+            <path d="M 295.0 147.7 h 10 M 300.0 142.7 v 10"/>
+          </g>
+        </g>
+
+        <!-- Systems and Guidance -->
+        <g style="--i:1" class="tri sand menu" data-menu="systems" tabindex="0" role="button" aria-expanded="false" aria-controls="submenu" aria-label="Systems and Guidance, opens a menu">
+          <polygon points="200.0,190.2 285.3,337.9 114.7,337.9"/>
+          <text><tspan x="200.0" y="273.8">Systems</tspan><tspan x="200.0" y="295.7">and Guidance</tspan></text>
+          <g class="plus" aria-hidden="true">
+            <circle cx="200.0" cy="320.9" r="11"/>
+            <path d="M 195.0 320.9 h 10 M 200.0 315.9 v 10"/>
+          </g>
+        </g>
+
+        <!-- Instruction and Literacy -->
+        <a style="--i:2" class="tri sand" href="instruction-literacy/" aria-label="Instruction and Literacy">
+          <polygon points="214.7,181.7 385.3,181.7 300.0,329.4"/>
+          <text><tspan x="300.0" y="221.0">Instruction</tspan><tspan x="300.0" y="242.8">and Literacy</tspan></text>
+        </a>
+
+        <!-- Districts and Charters -->
+        <a style="--i:3" class="tri sand" href="districts-charters/" aria-label="Districts and Charters">
+          <polygon points="400.0,190.2 485.3,337.9 314.7,337.9"/>
+          <text><tspan x="400.0" y="273.8">Districts</tspan><tspan x="400.0" y="295.7">and Charters</tspan></text>
+        </a>
+
+        <!-- Student and School Safety -->
+        <a style="--i:4" class="tri blue" href="safety/" aria-label="Student and School Safety">
+          <polygon points="100.0,363.4 185.3,511.1 14.7,511.1"/>
+          <text><tspan x="100.0" y="436.1">Student</tspan><tspan x="100.0" y="457.9">and School</tspan><tspan x="100.0" y="479.8">Safety</tspan></text>
+        </a>
+
+        <!-- Emotional Intelligence -->
+        <a style="--i:5" class="tri blue" href="eq/" aria-label="Emotional Intelligence">
+          <polygon points="114.7,354.9 285.3,354.9 200.0,502.6"/>
+          <text><tspan x="200.0" y="394.2">Emotional</tspan><tspan x="200.0" y="416.1">Intelligence</tspan></text>
+        </a>
+
+        <!-- CTE for Vulnerable Students -->
+        <a style="--i:6" class="tri blue" href="cte/" aria-label="CTE for Vulnerable Students">
+          <polygon points="300.0,363.4 385.3,511.1 214.7,511.1"/>
+          <text><tspan x="300.0" y="436.1">CTE for</tspan><tspan x="300.0" y="457.9">Vulnerable</tspan><tspan x="300.0" y="479.8">Students</tspan></text>
+        </a>
+
+        <!-- Artificial Intelligence -->
+        <a style="--i:7" class="tri blue" href="artificial-intelligence/" aria-label="Artificial Intelligence">
+          <polygon points="314.7,354.9 485.3,354.9 400.0,502.6"/>
+          <text><tspan x="400.0" y="394.2">Artificial</tspan><tspan x="400.0" y="416.1">Intelligence</tspan></text>
+        </a>
+
+        <!-- Advancing Innovation -->
+        <a style="--i:8" class="tri blue" href="advancing-innovation/" aria-label="Advancing Innovation">
+          <polygon points="500.0,363.4 585.3,511.1 414.7,511.1"/>
+          <text><tspan x="500.0" y="447.0">Advancing</tspan><tspan x="500.0" y="468.9">Innovation</tspan></text>
+        </a>
+
+      </svg>
+
+      <!-- Sub-triangles appear here when a triangle marked + is clicked -->
+      <div id="float" hidden></div>
+
+    </div>
+
+    </div>
+
+  </main>
+
+
+  <script>
+    /* ======================================================================
+       FOCUS GROUP PYRAMID : SCRIPT
+       The only part you normally edit is MENUS below (names, links, colors).
+       ====================================================================== */
+
+    (function () {
+
+      /* ---------- 1. THE MENUS ----------
+         One entry for each triangle that opens a menu (its "data-menu" name).
+         Each item: the lines of the label, the folder to open, and optionally
+         "img" with the path to a finished SVG or PNG from the design team. When "img"
+         is given, that picture is shown instead of the drawn triangle. */
+
+      var MENUS = {
+
+        vision: {
+          title: '2030 Vision for Students',
+          color: 'orange',
+          items: [
+            { lines: ['Chronic', 'Absenteeism'], href: 'vision-chronic-absenteeism/' },
+            { lines: ['ACCESS'],                  href: 'vision-access/' },
+            { lines: ['Connections'],             href: 'vision-connections/' }
+          ]
+        },
+
+        systems: {
+          title: 'Systems and Guidance',
+          color: 'sand',
+          items: [
+            { lines: ['Business', 'Services'],      href: 'systems-business-services/' },
+            { lines: ['Information', 'Technology'], href: 'systems-information-technology/' },
+            { lines: ['Legal', 'Services'],         href: 'systems-legal-services/' }
+          ]
+        }
+      };
+
+
+      /* ---------- 2. SETUP ---------- */
+
+      var stage    = document.getElementById('stage');
+      var pyramid  = document.getElementById('pyramid');
+      var box      = document.getElementById('float');
+      var openName = null;
+      var reduce   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var wide     = window.matchMedia('(min-width: 700px)');
+
+      function esc(text) {
+        return String(text).replace(/[&<>"]/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      }
+
+      function plain(item) { return item.lines.join(' '); }
+
+
+      /* ---------- 3. DRAW ONE SUB-TRIANGLE ---------- */
+
+      function kidHTML(item, color) {
+        var label = plain(item);
+
+        if (item.img) {
+          return '<a class="kid ' + color + '" href="' + esc(item.href) + '" aria-label="' + esc(label) + '">' +
+                 '<img src="' + esc(item.img) + '" alt=""></a>';
+        }
+
+        var size  = 24;
+        var lead  = 1.12;
+        var mid   = 126;                                   // vertical middle of the label
+        var first = mid - (item.lines.length - 1) * size * lead / 2;
+
+        var tspans = item.lines.map(function (line, i) {
+          return '<tspan x="100" y="' + (first + i * size * lead).toFixed(1) + '">' + esc(line) + '</tspan>';
+        }).join('');
+
+        return '<a class="kid ' + color + '" href="' + esc(item.href) + '" aria-label="' + esc(label) + '">' +
+               '<svg viewBox="0 0 200 180" aria-hidden="true">' +
+               '<polygon points="100,16 186,166 14,166"/>' +
+               '<text>' + tspans + '</text></svg></a>';
+      }
+
+
+      /* ---------- 4. OPEN AND CLOSE ---------- */
+
+      function triangleFor(name) {
+        return document.querySelector('.tri[data-menu="' + name + '"]');
+      }
+
+      // Place the floating group next to the triangle that was clicked (wide screens only)
+      function placeBox(from) {
+        if (!wide.matches) { box.style.top = ''; return; }
+
+        var s = stage.getBoundingClientRect();
+        var f = from.getBoundingClientRect();
+        var wanted = (f.top + f.height / 2) - s.top - box.offsetHeight * 0.9;   // sit a little above the clicked triangle
+        var max = Math.max(0, s.height - box.offsetHeight);
+        box.style.top = Math.max(0, Math.min(max, wanted)) + 'px';
+      }
+
+      function openMenu(name) {
+        var menu = MENUS[name];
+        var from = triangleFor(name);
+        if (!menu || !from) return;
+
+        document.querySelectorAll('.tri.menu').forEach(function (t) {
+          var on = (t === from);
+          t.classList.toggle('open', on);
+          t.setAttribute('aria-expanded', on ? 'true' : 'false');
+        });
+        openName = name;
+        pyramid.classList.toggle('dim', wide.matches);
+
+        box.innerHTML =
+          '<p class="title">' + esc(menu.title) + '</p>' +
+          '<button class="close" type="button">Close</button>' +
+          '<div class="kids">' + menu.items.map(function (it) { return kidHTML(it, menu.color); }).join('') + '</div>';
+        box.hidden = false;
+        box.querySelector('.close').onclick = closeMenu;
+
+        placeBox(from);
+
+        // The sub-triangles grow out of the triangle you clicked
+        var kids = box.querySelectorAll('.kid');
+        if (!reduce && kids.length && kids[0].animate) {
+          var origin = from.getBoundingClientRect();
+          kids.forEach(function (kid, i) {
+            var r  = kid.getBoundingClientRect();
+            var dx = (origin.left + origin.width / 2) - (r.left + r.width / 2);
+            var dy = (origin.top + origin.height / 2) - (r.top + r.height / 2);
+            kid.animate(
+              [
+                { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.25)', opacity: 0 },
+                { transform: 'none', opacity: 1 }
+              ],
+              { duration: 520, delay: i * 90, easing: 'cubic-bezier(.2,.8,.2,1.1)', fill: 'backwards' }
+            );
+          });
+        }
+
+        // On narrow screens the group sits under the pyramid, so scroll it into view
+        if (!wide.matches) {
+          box.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+        }
+      }
+
+      function closeMenu(refocus) {
+        var from = openName && triangleFor(openName);
+        openName = null;
+        document.querySelectorAll('.tri.menu').forEach(function (t) {
+          t.classList.remove('open');
+          t.setAttribute('aria-expanded', 'false');
+        });
+        pyramid.classList.remove('dim');
+        box.hidden = true;
+        box.innerHTML = '';
+        if (from && refocus === true) from.focus();
+      }
+
+
+      /* ---------- 5. CLICKS AND KEYS ---------- */
+
+      document.querySelectorAll('.tri.menu').forEach(function (tri) {
+        function toggle() {
+          var name = tri.getAttribute('data-menu');
+          if (openName === name) closeMenu(true); else openMenu(name);
+        }
+        tri.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+        tri.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && openName) closeMenu(true);
+      });
+
+      // Clicking empty space closes the group
+      document.addEventListener('click', function (e) {
+        if (openName && !e.target.closest('#float')) closeMenu();
+      });
+
+      // Keep the floating group lined up if the window is resized
+      window.addEventListener('resize', function () {
+        var from = openName && triangleFor(openName);
+        if (from) { pyramid.classList.toggle('dim', wide.matches); placeBox(from); }
+      });
+
+    })();
+  </script>
+</body>
+</html>
